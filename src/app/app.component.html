@@ -1,0 +1,35 @@
+<div class="embers" aria-hidden="true">
+  @for (e of embers; track $index) {
+    <span class="ember"
+          [style.left.%]="e.left"
+          [style.width.px]="e.size"
+          [style.height.px]="e.size"
+          [style.animation-duration.s]="e.duration"
+          [style.animation-delay.s]="e.delay"></span>
+  }
+</div>
+
+<header class="er-header">
+  <div class="container d-flex align-items-center justify-content-between py-2">
+    <a class="er-brand fs-5" routerLink="/">⚜ ELDEN RING</a>
+    <a class="er-pill" routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Inicio</a>
+  </div>
+  <nav class="er-catbar">
+    <div class="container d-flex flex-nowrap gap-2 overflow-x-auto py-2">
+      @for (c of categories; track c.key) {
+        <a class="er-pill" [routerLink]="['/', c.key]" routerLinkActive="active">{{ c.icon }} {{ c.label }}</a>
+      }
+    </div>
+  </nav>
+</header>
+
+<main class="container py-4">
+  <router-outlet />
+</main>
+
+<footer class="er-footer text-center py-4 mt-5">
+  <div class="container">
+    Proyecto educativo sin afiliación con FromSoftware ni Bandai Namco ·
+    Datos de <a href="https://eldenring.fanapis.com" target="_blank" rel="noopener">eldenring.fanapis.com</a>
+  </div>
+</footer>

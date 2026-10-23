@@ -1,0 +1,59 @@
+@if (vm$ | async; as vm) {
+  <nav class="er-crumbs mb-4">
+    <a routerLink="/">Inicio</a> ›
+    <a [routerLink]="['/', vm.cat.key]">{{ vm.cat.label }}</a>
+    @if (vm.entity) { › <span>{{ vm.entity.name }}</span> }
+  </nav>
+
+  @if (vm.state === 'loading') {
+    <div class="text-center my-5 py-5"><div class="spinner-border er-gold" role="status"></div></div>
+  } @else if (vm.state === 'error') {
+    <div class="text-center my-5">
+      <div class="you-died">HAS MUERTO</div>
+      <p class="er-desc mt-3">No se ha encontrado esta entrada en las Tierras Intermedias.</p>
+      <a class="btn btn-er" [routerLink]="['/', vm.cat.key]">Volver a {{ vm.cat.label }}</a>
+    </div>
+  } @else if (vm.entity; as e) {
+    <article class="row g-4 fade-in">
+      <div class="col-md-5">
+        <div class="er-panel text-center p-4">
+          <img #img class="img-fluid er-detail-img" [src]="e.image || placeholder(vm.cat.icon)" [alt]="e.name"
+               (error)="img.src = placeholder(vm.cat.icon)" />
+        </div>
+      </div>
+
+      <div class="col-md-7">
+        <p class="er-kicker mb-1">{{ vm.cat.icon }} {{ vm.cat.singular }}</p>
+        <h1 class="er-title">{{ e.name }}</h1>
+        <div class="er-divider wide"></div>
+
+        @if (e.description) { <p class="er-desc fs-5">{{ e.description }}</p> }
+
+        @if (vm.facts.length) {
+          <div class="row row-cols-2 row-cols-lg-3 g-2 mb-4">
+            @for (f of vm.facts; track f.label) {
+              <div class="col"><div class="er-stat"><small>{{ f.label }}</small><strong>{{ f.text }}</strong></div></div>
+            }
+          </div>
+        }
+
+        @for (b of vm.blocks; track b.label) {
+          <section class="mb-4">
+            <h2 class="er-label">{{ b.label }}</h2>
+            @if (b.text) { <p>{{ b.text }}</p> }
+            @for (t of b.tags ?? []; track $index) { <span class="er-tag">{{ t }}</span> }
+            @if (b.rows) {
+              <div class="row row-cols-2 row-cols-lg-3 g-2">
+                @for (r of b.rows; track $index) {
+                  <div class="col"><div class="er-stat"><small>{{ r.name }}</small><strong>{{ r.value || '—' }}</strong></div></div>
+                }
+              </div>
+            }
+          </section>
+        }
+
+        <a class="btn btn-er" [routerLink]="['/', vm.cat.key]">« Volver a {{ vm.cat.label }}</a>
+      </div>
+    </article>
+  }
+}

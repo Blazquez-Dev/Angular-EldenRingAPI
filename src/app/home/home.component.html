@@ -1,0 +1,26 @@
+<section class="hero text-center fade-in">
+  <div class="grace"></div>
+  <p class="er-kicker mb-2">Compendio de las Tierras Intermedias</p>
+  <h1 class="er-title">ELDEN RING</h1>
+  <div class="er-divider"></div>
+  <p class="er-desc fs-4 mx-auto" style="max-width: 640px">
+    Que la gracia te guíe, Sinluz. Explora armas, jefes, hechizos y todos los secretos del
+    mundo creado por FromSoftware y George R. R. Martin.
+  </p>
+  <a class="btn btn-er btn-lg mt-3 px-5" routerLink="/weapons">Comenzar el viaje</a>
+</section>
+
+<section class="mt-5">
+  <h2 class="er-label text-center">Elige tu camino</h2>
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mt-2">
+    @for (c of categories; track c.key) {
+      <div class="col">
+        <a class="er-card er-cat h-100" [routerLink]="['/', c.key]">
+          <div class="icon">{{ c.icon }}</div>
+          <h3>{{ c.label }}</h3>
+          <p>{{ c.blurb }}</p>
+        </a>
+      </div>
+    }
+  </div>
+</section>

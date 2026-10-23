@@ -1,0 +1,38 @@
+@if (vm$ | async; as vm) {
+  <div class="fade-in">
+    <div class="text-center mb-4">
+      <p class="er-kicker mb-1">{{ vm.cat.icon }} Compendio</p>
+      <h1 class="er-title">{{ vm.cat.label }}</h1>
+      <div class="er-divider"></div>
+      <p class="er-desc">{{ vm.cat.blurb }}</p>
+      <div class="mx-auto" style="max-width: 420px">
+        <input type="search" class="form-control form-control-lg er-input text-center"
+               [formControl]="search" [placeholder]="'Buscar en ' + vm.cat.label.toLowerCase() + '…'" />
+      </div>
+    </div>
+
+    @if (vm.loading) {
+      <div class="text-center my-5 py-5"><div class="spinner-border er-gold" role="status"></div></div>
+    } @else if (vm.error) {
+      <div class="text-center my-5">
+        <div class="you-died">HAS MUERTO</div>
+        <p class="er-desc mt-3">No se ha podido contactar con las Tierras Intermedias.</p>
+        <button class="btn btn-er" (click)="retry()">Reintentar</button>
+      </div>
+    } @else if (!vm.items.length) {
+      <div class="text-center my-5 er-desc fs-4">Nada que ver aquí… Prueba con otro nombre, Sinluz.</div>
+    } @else {
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-3">
+        @for (item of vm.items; track item.id) {
+          <div class="col"><app-entity-card [entity]="item" [category]="vm.cat" /></div>
+        }
+      </div>
+
+      <nav class="d-flex justify-content-center align-items-center gap-3 mt-5">
+        <button class="btn btn-er" [disabled]="vm.page === 0" (click)="go(vm.page - 1)">« Anterior</button>
+        <span class="er-font">Página {{ vm.page + 1 }}@if (vm.pages) { de {{ vm.pages }} }</span>
+        <button class="btn btn-er" [disabled]="!vm.hasNext" (click)="go(vm.page + 1)">Siguiente »</button>
+      </nav>
+    }
+  </div>
+}

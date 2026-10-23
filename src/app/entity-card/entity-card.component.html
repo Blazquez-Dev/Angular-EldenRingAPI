@@ -1,0 +1,9 @@
+<a class="er-card h-100" [routerLink]="['/', category.key, entity.id]">
+  <div class="er-card-img">
+    <img #img [src]="entity.image || placeholder" [alt]="entity.name" loading="lazy" (error)="img.src = placeholder" />
+  </div>
+  <div class="er-card-body">
+    <h3>{{ entity.name }}</h3>
+    @if (subtitle) { <small>{{ subtitle }}</small> }
+  </div>
+</a>
